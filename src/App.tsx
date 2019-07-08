@@ -7,32 +7,34 @@ const App: React.FC = () => {
   let results = "";
 
   const countIt = (counter: number, value: number, fraction: number) => {
-    console.log(counter, value, fraction);
+    // console.log(counter, value, fraction);
     if (value > fraction) {
       counter += 1;
       countIt(counter, value - fraction, fraction);
     } else {
-      value = value - fraction;
-
-      console.log(value, `${counter} x Rp${fraction}, `);
+      // console.log(value, `${counter} x Rp${fraction}, `);
       results += `${counter} x Rp${fraction}, `;
-      counter = 0;
+      // counter = 0;
     }
-    return value;
+    return counter;
   };
 
   const submitHandler = (e: any) => {
     console.log("ok", money);
     e.preventDefault();
 
-    // let _money = money;
-    let _money = 50000;
+    let _money = money;
+    // let _money = 50000;
 
     fractions.forEach(fraction => {
       // console.log(money, fraction);
       let counter = 0;
       if (_money > fraction) {
-        _money = countIt(counter, _money, fraction);
+        counter = countIt(counter, _money, fraction);
+
+        _money = _money - counter * fraction;
+        console.log(counter, _money, fraction);
+        counter = 0;
       }
     });
 
