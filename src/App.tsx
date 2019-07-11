@@ -4,7 +4,7 @@ import { useState } from "react";
 import Results from "./Results";
 
 const App: React.FC = () => {
-  const [money, setMoney] = useState("12.500.000");
+  const [money, setMoney] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
   const [isInvalid, setIsInvalid] = useState("");
 
@@ -96,7 +96,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1 className="money" data-testid="money">
-        {money || ""}
+        Denominations in Rupiah
       </h1>
       <form onSubmit={submitHandler}>
         <input
@@ -110,7 +110,9 @@ const App: React.FC = () => {
             // fractionChecker(e.target.value);
           }}
         />
-        <button className="submit-money">Submit</button>
+        <button className="submit-money" disabled={!money ? true : false}>
+          Submit
+        </button>
       </form>
       {isSubmit && !isInvalid && (
         <Results value={parseInt(formatter(money), 0)} />

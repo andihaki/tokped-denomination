@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   render,
   fireEvent,
@@ -6,6 +6,7 @@ import {
   getByTestId,
   queryByAttribute
 } from "@testing-library/react";
+import { toBeDisabled } from "@testing-library/jest-dom";
 
 import App from "../App";
 
@@ -14,24 +15,26 @@ afterEach(cleanup);
 describe("Correct Value", () => {
   it("first render", () => {
     const { container } = render(<App />);
-    const money = getByTestId(container, "money");
-    expect(money.textContent).toBe("12.500.000");
+    // // const money = getByTestId(container, "money");
+    const inputMoney = getByTestId(container, "input-money");
+    expect(inputMoney.textContent).toBe("");
   });
 
   it("input value and submit", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
-    // const inputMoney = getByTestId(container, "input-money");
-    const getByClass = queryByAttribute.bind(null, "class");
-    const inputMoney = getByClass(container, "input-money"); // wow it works
+    // // const money = getByTestId(container, "money");
+    const inputMoney = getByTestId(container, "input-money");
+    // const getByClass = queryByAttribute.bind(null, "class");
+    // const inputMoney = getByClass(container, "input-money"); // wow it works
     const submitButton = getByText("Submit");
 
     const newMoney = "18.250";
 
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
+    // console.log(inputMoney.value);
 
-    expect(money.textContent).toEqual(newMoney);
+    expect(inputMoney.value).toEqual(newMoney);
 
     expect(getByText("1x Rp50")).toBeDefined();
     expect(getByText("2x Rp100")).toBeDefined();
@@ -43,7 +46,7 @@ describe("Correct Value", () => {
 
   it("Rp 120.325", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -54,8 +57,6 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("left Rp25 (no available fraction)")).toBeDefined();
     expect(getByText("3x Rp100")).toBeDefined();
     expect(getByText("1x Rp20000")).toBeDefined();
@@ -64,7 +65,7 @@ describe("Correct Value", () => {
 
   it("005.000", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -75,14 +76,12 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("1x Rp5000")).toBeDefined();
   });
 
   it("001000", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -93,14 +92,12 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("1x Rp1000")).toBeDefined();
   });
 
   it("Rp17500 or Rp17.500,00", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -110,8 +107,6 @@ describe("Correct Value", () => {
 
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
-
-    expect(money.textContent).toEqual(newMoney);
 
     expect(getByText("1x Rp500")).toBeDefined();
     expect(getByText("1x Rp2000")).toBeDefined();
@@ -123,8 +118,6 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("1x Rp500")).toBeDefined();
     expect(getByText("1x Rp2000")).toBeDefined();
     expect(getByText("1x Rp5000")).toBeDefined();
@@ -135,7 +128,7 @@ describe("Correct Value", () => {
 describe("InCorrect Value", () => {
   it("17,500 or 2 500", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -146,8 +139,6 @@ describe("InCorrect Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("Invalid Separator")).toBeDefined();
 
     newMoney = "2 500";
@@ -155,14 +146,12 @@ describe("InCorrect Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("Invalid Separator")).toBeDefined();
   });
 
   it("3000 Rp", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -173,14 +162,12 @@ describe("InCorrect Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(money.textContent).toEqual(newMoney);
-
     expect(getByText("Valid Character in Wrong Position")).toBeDefined();
   });
 
   it("Rp", () => {
     const { container, getByText } = render(<App />);
-    const money = getByTestId(container, "money");
+    // const money = getByTestId(container, "money");
     // const inputMoney = getByTestId(container, "input-money");
     const getByClass = queryByAttribute.bind(null, "class");
     const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -190,8 +177,6 @@ describe("InCorrect Value", () => {
 
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
-
-    expect(money.textContent).toEqual(newMoney);
 
     expect(getByText("Missing Value")).toBeDefined();
   });
@@ -205,9 +190,14 @@ describe("Onclick submit button", () => {
   });
 
   it("render default", () => {
-    const { getByText } = render(<App />);
+    const { getByText, container } = render(<App />);
     const submitButton = getByText("Submit");
     fireEvent.click(submitButton);
-    getByText("125x Rp100000");
+    // getByText("125x Rp100000");
+    const inputMoney = getByTestId(container, "input-money");
+    expect(inputMoney.textContent).toBe("");
+
+    expect.extend({ toBeDisabled });
+    expect(submitButton).toBeDisabled();
   });
 });
