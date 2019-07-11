@@ -8,7 +8,15 @@ interface Iresults {
   [key: string]: number;
 }
 
-// const Results: React.FC<IResults> = ({ value }: IResults) => {
+// function memo<P extends object>(
+//   Component: SFC<P>,
+//   propsAreEqual?: (
+//     prevProps: Readonly<PropsWithChildren<P>>,
+//     nextProps: Readonly<PropsWithChildren<P>>
+//   ) => boolean
+// ): NamedExoticComponent<P>;
+// const Results: <P extends object>(Component: FC<P>, propsAreEqual? : (IResults | any))  => {
+// const Results: React.FC<IResults | any> = ({ value }: IResults) => {
 const Results = ({ value }: IResults): any => {
   const fractions = [
     100000,
@@ -28,8 +36,22 @@ const Results = ({ value }: IResults): any => {
   let money = value;
 
   fractions.forEach(fraction => {
+    // function countIt(count: number, mon: number, frac: number): any {
+    //   if (mon >= frac) {
+    //     count += 1;
+    //     return countIt(count, mon - frac, frac);
+    //   }
+    //   return count;
+    // }
     function countIt(count: number, mon: number, frac: number): any {
       if (mon >= frac) {
+        if (mon > fractions[0]) {
+          count = Math.floor(mon / fractions[0]);
+          // console.log(count);
+          // const moneyLeft = frac * count;
+          // 125550260
+          return countIt(count, mon % fractions[0], frac);
+        }
         count += 1;
         return countIt(count, mon - frac, frac);
       }
@@ -37,6 +59,11 @@ const Results = ({ value }: IResults): any => {
     }
     if (money >= fraction) {
       let test = countIt(0, money, fraction);
+      // let test = React.useMemo(() => countIt(0, money, fraction), [
+      //   money,
+      //   fraction
+      // ]);
+
       money = money - test * fraction;
       results[fraction] = test;
       // console.info(test, money, fraction);
