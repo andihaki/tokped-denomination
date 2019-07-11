@@ -4,16 +4,16 @@ import { useState } from "react";
 import Results from "./Results";
 
 const App: React.FC = () => {
-  const [money, setMoney] = useState("12 500");
+  const [money, setMoney] = useState("12.500.000");
   const [isSubmit, setIsSubmit] = useState(false);
   const [isInvalid, setIsInvalid] = useState("");
 
   function submitHandler(e: any) {
-    console.log("ok", money);
+    // console.log("ok", money);
     e.preventDefault();
     setIsSubmit(!isSubmit);
-    // fractionChecker(money);
-    console.info(checker(money));
+    checker(money);
+    // console.info(checker(money));
   }
 
   // function fractionChecker(fraction) {
@@ -61,7 +61,9 @@ const App: React.FC = () => {
 
     // capture valid currency
     //18.215
-    const withDot = /^\d+\.?\d+$/.test(fraction);
+    // const withDot = /^\d+\.?\d+$/.test(fraction); bugs if repated .xxx
+    const withDot = /^\d+(.?\d{3})*$/.test(fraction);
+
     //Rp17500
     const withRp = /^(Rp)\d+$/.test(fraction);
     //Rp17.500,00
@@ -87,18 +89,21 @@ const App: React.FC = () => {
     const withoutZeroPrefix = fraction.replace(/\b0+/g, "");
     const cleanFraction =
       withoutComma || withoutZeroPrefix || fraction.replace(/\D/g, "");
-
+    // console.log(withoutComma, withoutZeroPrefix, cleanFraction);
     return cleanFraction;
   }
   // console.log("isInvalid", isInvalid);
   return (
     <div className="App">
-      <h1 className="money">{money || ""}</h1>
+      <h1 className="money" data-testid="money">
+        {money || ""}
+      </h1>
       <form onSubmit={submitHandler}>
         <input
           type="text"
           placeholder="input amount of money"
           className="input-money"
+          data-testid="input-money"
           onChange={e => {
             setMoney(e.target.value);
             setIsSubmit(false);
