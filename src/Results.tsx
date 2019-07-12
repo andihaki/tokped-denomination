@@ -27,7 +27,7 @@ const Results = ({ value }: IResults): any => {
     2000,
     1000,
     500,
-    // 200,
+    200,
     100,
     50
   ];
@@ -36,20 +36,11 @@ const Results = ({ value }: IResults): any => {
   let money = value;
 
   fractions.forEach(fraction => {
-    // function countIt(count: number, mon: number, frac: number): any {
-    //   if (mon >= frac) {
-    //     count += 1;
-    //     return countIt(count, mon - frac, frac);
-    //   }
-    //   return count;
-    // }
     function countIt(count: number, mon: number, frac: number): any {
       if (mon >= frac) {
+        // fix call stack trace
         if (mon > fractions[0]) {
           count = Math.floor(mon / fractions[0]);
-          // console.log(count);
-          // const moneyLeft = frac * count;
-          // 125550260
           return countIt(count, mon % fractions[0], frac);
         }
         count += 1;
@@ -58,24 +49,17 @@ const Results = ({ value }: IResults): any => {
       return count;
     }
     if (money >= fraction) {
-      let test = countIt(0, money, fraction);
-      // let test = React.useMemo(() => countIt(0, money, fraction), [
-      //   money,
-      //   fraction
-      // ]);
+      let counter = countIt(0, money, fraction);
 
-      money = money - test * fraction;
-      results[fraction] = test;
-      // console.info(test, money, fraction);
+      money = money - counter * fraction;
+      results[fraction] = counter;
     }
 
     // no available fraction
     if (money && money < fraction && money < 50) {
       results["-"] = money;
-      // console.log("last fraction");
     }
   });
-  // console.log(results);
 
   return (
     <React.Fragment>

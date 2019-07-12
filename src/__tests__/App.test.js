@@ -37,7 +37,7 @@ describe("Correct Value", () => {
     expect(inputMoney.value).toEqual(newMoney);
 
     expect(getAllByText("IDR 50")).toBeDefined();
-    expect(getAllByText("IDR 100")).toBeDefined();
+    expect(getAllByText("IDR 200")).toBeDefined();
     expect(getAllByText("IDR 1,000")).toBeDefined();
     expect(getAllByText("IDR 2,000")).toBeDefined();
     expect(getAllByText("IDR 5,000")).toBeDefined();

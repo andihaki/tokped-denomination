@@ -10,21 +10,10 @@ const App: React.FC = () => {
   const [isInvalid, setIsInvalid] = useState("");
 
   function submitHandler(e: any) {
-    // console.log("ok", money);
     e.preventDefault();
     setIsSubmit(!isSubmit);
     checker(money);
-    // console.info(checker(money));
   }
-
-  // function fractionChecker(fraction) {
-  //   // const regex = /(?=.*\d)^(Rp)|(\s)|(0.+)?(([1-9]\d{0,2}(.\d{3})*)|0)?(,\d{1,2})?$/;
-  //   // const regex = /(?=.)^(Rp(\s)?)?((\d{0,2}(.\d)*)|0)?(,\d{1,2})?$/;
-  //   // const regex = /^(?!0.00)\d{1,3}(.?\d{3})*(,\d\d)?$/
-  //   const regex = /(Rp )|(Rp)?\d{1,3}(?!,)(?:.)/;
-  //   console.log(regex.test(fraction));
-  //   return regex.test(fraction);
-  // }
 
   function checker(fraction: string) {
     /*
@@ -46,18 +35,14 @@ const App: React.FC = () => {
     //Rp
     const missingValue = /^\s?(Rp)\s?$/.test(fraction);
 
-    // console.log(commaOrSpaceSeparator, dotOrSpaceWithNumberLessThenThree);
     if (commaOrSpaceSeparator || dotOrSpaceWithNumberLessThenThree) {
       return setIsInvalid("Invalid Separator");
-      // return false;
     }
     if (wrongPosition) {
       return setIsInvalid("Valid Character in Wrong Position");
-      // return false;
     }
     if (missingValue) {
       return setIsInvalid("Missing Value");
-      // return false;
     }
 
     // capture valid currency
@@ -76,11 +61,9 @@ const App: React.FC = () => {
 
     if (withDot || withRp || withRpDotComma || withRpSpaceDot) {
       return setIsInvalid("");
-      // return true;
     }
 
     return setIsInvalid("Invalid Format");
-    // return false;
   }
   function formatter(fraction: string) {
     /*
@@ -90,10 +73,9 @@ const App: React.FC = () => {
     const withoutZeroPrefix = fraction.replace(/\b0+/g, "");
     const cleanFraction =
       withoutComma || withoutZeroPrefix || fraction.replace(/\D/g, "");
-    // console.log(withoutComma, withoutZeroPrefix, cleanFraction);
     return cleanFraction;
   }
-  // console.log("isInvalid", isInvalid);
+
   return (
     <div className="App">
       <h1 className="money" data-testid="money">
@@ -108,7 +90,6 @@ const App: React.FC = () => {
           onChange={e => {
             setMoney(e.target.value);
             setIsSubmit(false);
-            // fractionChecker(e.target.value);
           }}
         />
         <button className="submit-money" disabled={!money ? true : false}>
@@ -118,7 +99,18 @@ const App: React.FC = () => {
       {isSubmit && !isInvalid && (
         <Results value={parseInt(formatter(money), 0)} />
       )}
-      {isSubmit && isInvalid && <p className="invalid-results">{isInvalid}</p>}
+      {isSubmit && isInvalid && (
+        <div className="invalid-results">
+          <h2>{isInvalid}</h2>
+          <div>Lists of invalid input value:</div>
+          <ul>
+            <li>17,500 (invalid separator)</li>
+            <li>2 500(invalid separator)</li>
+            <li>3000 Rp (valid character in wrong position)</li>
+            <li>Rp (missing value)</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

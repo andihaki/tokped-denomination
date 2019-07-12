@@ -29,7 +29,7 @@ describe("Render Correctly", () => {
     getAllByText("IDR 2,000");
     getAllByText("IDR 1,000");
     getAllByText("IDR 500");
-    getAllByText("IDR 100");
+    getAllByText("IDR 200");
   });
   it("value = 12510", () => {
     const { getAllByText } = render(<Results value={12510} />);
