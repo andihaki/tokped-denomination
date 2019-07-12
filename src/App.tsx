@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 
 import Results from "./Results";
+import "./App.css";
 
 const App: React.FC = () => {
   const [money, setMoney] = useState("");

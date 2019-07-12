@@ -71,24 +71,55 @@ const Results = ({ value }: IResults): any => {
 
     // no available fraction
     if (money && money < fraction && money < 50) {
-      results[money] = 1;
+      results["-"] = money;
       // console.log("last fraction");
     }
   });
   // console.log(results);
 
   return (
-    Object.keys(results).length &&
-    Object.keys(results).map((result, index) => {
-      // return <div key={index}>{results[result] + "x Rp" + result}</div>;
-      return (
-        <div key={index} className="results">
-          {parseInt(result, 0) >= 50
-            ? results[result] + "x Rp" + result
-            : "left Rp" + result + " (no available fraction)"}
-        </div>
-      );
-    })
+    <React.Fragment>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fraction</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        {fractions.map(
+          fraction =>
+            results[fraction] && (
+              <tbody key={fraction}>
+                <tr>
+                  <td>{results[fraction]}</td>
+                  <td>
+                    {fraction.toLocaleString("id", {
+                      style: "currency",
+                      currency: "IDR"
+                    })}
+                  </td>
+                  <td>
+                    {(results[fraction] * fraction).toLocaleString("id", {
+                      style: "currency",
+                      currency: "IDR"
+                    })}
+                  </td>
+                </tr>
+              </tbody>
+            )
+        )}
+      </table>
+      <p>
+        {results["-"] &&
+          "left " +
+            results["-"].toLocaleString("id", {
+              style: "currency",
+              currency: "IDR"
+            }) +
+            " (no available fraction)"}{" "}
+      </p>
+    </React.Fragment>
   );
 };
 
