@@ -71,11 +71,11 @@ const Results = ({ value }: IResults): any => {
             <th>Total</th>
           </tr>
         </thead>
-        {fractions.map(
-          fraction =>
-            results[fraction] && (
-              <tbody key={fraction}>
-                <tr>
+        <tbody data-testid="results">
+          {fractions.map(
+            fraction =>
+              results[fraction] && (
+                <tr key={fraction}>
                   <td>{results[fraction]}</td>
                   <td>
                     {fraction.toLocaleString("id", {
@@ -90,9 +90,9 @@ const Results = ({ value }: IResults): any => {
                     })}
                   </td>
                 </tr>
-              </tbody>
-            )
-        )}
+              )
+          )}
+        </tbody>
       </table>
       <p>
         {results["-"] &&

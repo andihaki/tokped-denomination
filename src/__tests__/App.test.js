@@ -22,7 +22,7 @@ describe("Correct Value", () => {
 
   it("input value and submit", () => {
     const { container, getAllByText, getByText } = render(<App />);
-    // // const money = getByTestId(container, "money");
+
     const inputMoney = getByTestId(container, "input-money");
     // const getByClass = queryByAttribute.bind(null, "class");
     // const inputMoney = getByClass(container, "input-money"); // wow it works
@@ -32,16 +32,16 @@ describe("Correct Value", () => {
 
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
-    // console.log(inputMoney.value);
+    // console.log(getByTestId(container, "results"));
 
     expect(inputMoney.value).toEqual(newMoney);
 
-    expect(getAllByText("IDR 50")).toBeDefined();
-    expect(getAllByText("IDR 200")).toBeDefined();
-    expect(getAllByText("IDR 1,000")).toBeDefined();
-    expect(getAllByText("IDR 2,000")).toBeDefined();
-    expect(getAllByText("IDR 5,000")).toBeDefined();
-    expect(getAllByText("IDR 10,000")).toBeDefined();
+    expect(getAllByText(`Rp 50,00`)).toBeDefined();
+    expect(getAllByText("Rp 200,00")).toBeDefined();
+    expect(getAllByText("Rp 1.000,00")).toBeDefined();
+    expect(getAllByText("Rp 2.000,00")).toBeDefined();
+    expect(getAllByText("Rp 5.000,00")).toBeDefined();
+    expect(getAllByText("Rp 10.000,00")).toBeDefined();
   });
 
   it("Rp 120.325", () => {
@@ -57,10 +57,10 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(getAllByText("left IDR 25 (no available fraction)")).toBeDefined();
-    expect(getAllByText("IDR 100")).toBeDefined();
-    expect(getAllByText("IDR 20,000")).toBeDefined();
-    expect(getAllByText("IDR 100,000")).toBeDefined();
+    expect(getAllByText("left Rp 25,00 (no available fraction)")).toBeDefined();
+    expect(getAllByText("Rp 100,00")).toBeDefined();
+    expect(getAllByText("Rp 20.000,00")).toBeDefined();
+    expect(getAllByText("Rp 100.000,00")).toBeDefined();
   });
 
   it("005.000", () => {
@@ -76,7 +76,7 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(getAllByText("IDR 5,000")).toBeDefined();
+    expect(getAllByText("Rp 5.000,00")).toBeDefined();
   });
 
   it("001000", () => {
@@ -92,7 +92,7 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(getAllByText("IDR 1,000")).toBeDefined();
+    expect(getAllByText("Rp 1.000,00")).toBeDefined();
   });
 
   it("Rp17500 or Rp17.500,00", () => {
@@ -108,20 +108,20 @@ describe("Correct Value", () => {
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(getAllByText("IDR 500")).toBeDefined();
-    expect(getAllByText("IDR 2,000")).toBeDefined();
-    expect(getAllByText("IDR 5,000")).toBeDefined();
-    expect(getAllByText("IDR 10,000")).toBeDefined();
+    expect(getAllByText("Rp 500,00")).toBeDefined();
+    expect(getAllByText("Rp 2.000,00")).toBeDefined();
+    expect(getAllByText("Rp 5.000,00")).toBeDefined();
+    expect(getAllByText("Rp 10.000,00")).toBeDefined();
 
     newMoney = "Rp17.500,00";
 
     fireEvent.change(inputMoney, { target: { value: newMoney } });
     fireEvent.click(submitButton);
 
-    expect(getAllByText("IDR 500")).toBeDefined();
-    expect(getAllByText("IDR 2,000")).toBeDefined();
-    expect(getAllByText("IDR 5,000")).toBeDefined();
-    expect(getAllByText("IDR 10,000")).toBeDefined();
+    expect(getAllByText("Rp 500,00")).toBeDefined();
+    expect(getAllByText("Rp 2.000,00")).toBeDefined();
+    expect(getAllByText("Rp 5.000,00")).toBeDefined();
+    expect(getAllByText("Rp 10.000,00")).toBeDefined();
   });
 });
 
