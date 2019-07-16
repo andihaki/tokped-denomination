@@ -3,6 +3,19 @@ import { useState } from "react";
 
 import Results from "./Results";
 import "./App.css";
+import { Transition } from "react-transition-group";
+
+const defaultStyle = {
+  transition: `opacity 500ms ease-in-out`,
+  opacity: 0
+};
+
+const transitionStyle: { [id: string]: React.CSSProperties } = {
+  entering: { opacity: 0.6 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0.7 },
+  exited: { opacity: 0 }
+};
 
 const App: React.FC = () => {
   const [money, setMoney] = useState("");
@@ -96,9 +109,18 @@ const App: React.FC = () => {
           Submit
         </button>
       </form>
-      {isSubmit && !isInvalid && (
+      {/* {isSubmit && !isInvalid && (
         <Results value={parseInt(formatter(money), 0)} />
-      )}
+      )} */}
+      <Transition in={isSubmit} timeout={500}>
+        {(status: string) => (
+          <div style={{ ...defaultStyle, ...transitionStyle[status] }}>
+            {isSubmit && !isInvalid && (
+              <Results value={parseInt(formatter(money), 0)} />
+            )}
+          </div>
+        )}
+      </Transition>
       {isSubmit && isInvalid && (
         <div className="invalid-results">
           <h2>{isInvalid}</h2>
